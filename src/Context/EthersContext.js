@@ -10,6 +10,8 @@ if(!ethereum) alert("Please install metamask to use the application")
 
 export default function Ethers({ children }) {
   const contractAddress = "0x3e3af332c1fd7b1eb5d35c49d0f6cee46a13df40"
+  const scrollContract = "0x9c6F28Af5c71aC91a511d475A0ac2B609719e020";
+  const mumbaiContract = "0xCc2973d5c3C346892d296d56aFeCc2A1f06bB897"
   const [currentAccount, setCurrentAccount] = useState(null);
   const [chainId, setChainId] = useState("0x13881");
   const [EmpWallet, setEmpWallet] = useState()
