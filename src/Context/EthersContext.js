@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { createContext, useState, useEffect } from "react";
 import { abi } from "../Utils/abi";
 import { useNavigate } from 'react-router-dom';
+import { chainIdMapping } from "../Utils/networks";
 
 export const EthersContext = createContext(null);
 const { ethereum } = window
@@ -10,8 +11,9 @@ if(!ethereum) alert("Please install metamask to use the application")
 export default function Ethers({ children }) {
   const contractAddress = "0x3e3af332c1fd7b1eb5d35c49d0f6cee46a13df40"
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [Stakes, setStakes] = useState();
+  const [chainId, setChainId] = useState("0x13881");
   const [EmpWallet, setEmpWallet] = useState()
+  const [isLoading, setisLoading] = useState(false);
   const provider = new ethers.providers.Web3Provider(ethereum)
   const signer = provider.getSigner()
   const [Contract, setContract] = useState(new ethers.Contract(contractAddress, abi, signer))
@@ -25,9 +27,10 @@ export default function Ethers({ children }) {
 
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
-        getName()
+        const network = window.ethereum.networkVersion
+        setChainId(network);
       } else {
-        alert("No accounts found");
+        alert("No accounts found, please click the connect wallet button to proceed");
       }
     } catch (error) {
       console.log(error);
@@ -292,44 +295,48 @@ export default function Ethers({ children }) {
   }
 
 
-  const getN = async () => {
-    const chainId = 137 // Polygon Mainnet
-
-    if (window.ethereum.networkVersion !== chainId) {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: "0x89" }]
-        });
-      } catch (err) {
-        // This error code indicates that the chain has not been added to MetaMask
-        if (err.code === 4902) {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
+  const switchNetwork = async (hexChain) => {
+    setisLoading(true)
+    try {
+      console.log("switching");
+      await provider.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainIdMapping[hexChain].hex }],
+      });
+      navigate("/")
+    } catch (switchError) {
+      console.log(switchError);
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await provider.provider.request({
+            method: "wallet_addEthereumChain",
             params: [
               {
-                chainName: 'Polygon Mainnet',
-                chainId: "0x89",
-                nativeCurrency: { name: 'MATIC', decimals: 18, symbol: 'MATIC' },
-                rpcUrls: ['https://polygon-rpc.com/']
-              }
-            ]
+                chainId: chainIdMapping[hexChain].hex,
+                chainName: chainIdMapping[hexChain].name,
+                rpcUrls: [chainIdMapping[hexChain].rpcUrls],
+                blockExplorerUrls: [chainIdMapping[hexChain].blockExplorerUrls],
+              },
+            ],
           });
+          navigate("/")
+        } catch (addError) {
+          console.log(addError);
         }
       }
     }
-
-  }
+    setisLoading(false)
+  };
 
   useEffect(() => {
-     checkIfWalletIsConnect();
-    
-    getN()
+    checkIfWalletIsConnect();
+    //connectWallet()
   }, []);
 
 
   return (
-    <EthersContext.Provider value={{ connectWallet, currentAccount, getName, checkIfWalletIsConnect, getEmployeeTransactions, createAccount, getEmployeeList, calculateTotalSalary, removeEmployee, changeEmployeeSalary, addEmployee, payEmployees, getEmployeeName, setEmpWallet, EmpWallet, getCompanyTransactions }}>
+    <EthersContext.Provider value={{ connectWallet, currentAccount, getName, checkIfWalletIsConnect, getEmployeeTransactions, createAccount, getEmployeeList, calculateTotalSalary, removeEmployee, changeEmployeeSalary, addEmployee, payEmployees, getEmployeeName, setEmpWallet, EmpWallet, getCompanyTransactions, chainId, setChainId, switchNetwork }}>
       {children}
     </EthersContext.Provider>
   )

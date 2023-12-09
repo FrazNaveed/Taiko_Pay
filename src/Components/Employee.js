@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Col, Row } from "react-bootstrap";
-import { EthersContext } from "../Context/EthersContext"; 
+import { EthersContext } from "../Context/EthersContext";
 import '../Styles/Employee.css'
 import Loader from "./Loader";
 import { ethers } from "ethers";
 
 function Employee() {
-  const { getEmployeeTransactions ,getName} = useContext(EthersContext)
+  const { getEmployeeTransactions, getName } = useContext(EthersContext)
   const [Loaded, setLoaded] = useState(false)
   const [Transactions, setTransactions] = useState([])
   const [Name, setName] = useState("")
@@ -17,16 +17,16 @@ function Employee() {
   }, [])
   const initiator = async () => {
     setLoaded(false)
-    const transactions= await getEmployeeTransactions()
+    const transactions = await getEmployeeTransactions()
     console.log(transactions);
     if (transactions) setTransactions(transactions)
     const name = await getName()
-    if(name==="") navigate("/");
+    if (name === "") navigate("/");
     if (name) setName(name)
     setLoaded(true)
   }
   return (
-    
+
     <div className='emp_main'>
       {
         Loaded ? <Row>
@@ -36,13 +36,13 @@ function Employee() {
             <Col sm={12} lg={6} md={12} className='probox'>
               {/* <div className="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;"> */}
               <div className='pro_box'>
-                <div class="single_advisor_profile wow " >
-                  <div class="advisor_thumb"><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
-                    <div class="social-info"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+                <div className="single_advisor_profile wow " >
+                  <div className="advisor_thumb"><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
+                    <div className="social-info"><a href="#"><i className="fa fa-facebook"></i></a><a href="#"><i className="fa fa-twitter"></i></a><a href="#"><i className="fa fa-linkedin"></i></a></div>
                   </div>
-                  <div class="single_advisor_details_info">
+                  <div className="single_advisor_details_info">
                     <h6>{Name}</h6>
-                    <p class="designation">Employee</p>
+                    <p className="designation">Employee</p>
                   </div>
                 </div>
               </div>
@@ -62,9 +62,10 @@ function Employee() {
                       return (<div className='tr_card'>
                         <div className='tr_amount'>{etherValue} matic</div>
                         <div className="trtime">{date.getDate()}/{date.getMonth()}/2023 {date.getHours()}:{date.getMinutes()}</div>
-                  </div>)})
+                      </div>)
+                    })
                   }
-                  
+
                 </div>
               </div>
             </Col>
@@ -73,9 +74,9 @@ function Employee() {
           {/* </Col> */}
           {/* Transaction History */}
           {/* <Col sm={12} xs={12} lg={6} md={6}></Col> */}
-        </Row>:<Loader/>
+        </Row> : <Loader />
       }
-      
+
     </div>
   )
 

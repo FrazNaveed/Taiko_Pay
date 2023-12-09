@@ -72,7 +72,6 @@ contract Payroll {
     
    
     function payEmployees() public payable{
-        // require(isEmployee[msg.sender]==2, "only companies can send salary");
         uint256 totalSal = calculateTotalSalary(msg.sender);
         require(msg.value>= totalSal, "please send the right amount");
         uint length = Company[msg.sender].EmployeeList.length;
