@@ -68,7 +68,7 @@ const Welcome = () => {
               <div className='content'>
                 <div className='welcome'>Hello There !</div>
                 <div className='subtitle'>We're almost done. Before using our services you need to create an account.</div>
-                <div className='input-fields'>
+                <div className='input-fields my-7'>
                   <input type='text' placeholder='Name of the Company' className='input-line full-width' onChange={(e) => setName(e.target.value)}></input>
                 </div>
                 <div><button className='ghost-round full-width' onClick={handleCreate}>Create Account</button></div>
@@ -84,7 +84,7 @@ const Welcome = () => {
               </div>
               <div className='text-center text-white space2'>Signed In as {Rname}</div>
             </div> : <div>
-              <button className="button-63" role="button" onClick={connectWallet}>Connect Wallet </button>
+              <button className="button-63 bg-[#121241]" role="button" onClick={connectWallet}>Connect Wallet </button>
             </div>
             }
           </Col>
