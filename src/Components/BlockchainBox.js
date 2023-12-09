@@ -61,8 +61,10 @@ const BlockchainBox = () => {
                 style={customStyles}
                 contentLabel="Example Modal"
             > */}
-                <div className='flex justify-between w-72'>
-                    <h2 >Choose Chain</h2>
+            {isOpen && <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50'>
+                <div className='bg-white p-3 rounded-md'>
+                <div className='flex justify-between'>
+                    <div className='font-roboto font-semibold text-2xl'>Choose Chain</div>
                     <button onClick={handleCloseModal} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +72,7 @@ const BlockchainBox = () => {
                             height="24"
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="white"
+                            stroke="black"
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -80,31 +82,32 @@ const BlockchainBox = () => {
                         </svg>
                     </button>
                 </div>
-                <div className='pt-7 flex justify-between'>
-                    <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center' onClick={() => { switchHandler('0x1') }}>
+                <div className='grid grid-rows-2 grid-flow-col gap-4 p-3'>
+                    <div className='h-16 w-16 bg-stone-900 rounded-md flex flex-col justify-center text-center cursor-pointer' onClick={() => { switchHandler('0x1') }}>
                         <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ethereum_logo_2014.svg/471px-Ethereum_logo_2014.svg.png' 
                         className='w-7 h-11 ml-4'></img>
-                     <div className='text-xs'>Ethereum</div>
+                        <div className='text-xs text-white'>Ethereum</div>
                     </div>
-                    <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center' onClick={() => { switchHandler('0x89') }}>
+                    <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center cursor-pointer' onClick={() => { switchHandler('0x89') }}>
                         <img src='https://seeklogo.com/images/P/polygon-matic-logo-86F4D6D773-seeklogo.com.png'
                             className='w-10 h-11 ml-3'></img>
-                        <div className='text-xs'>Polygon</div>
+                        <div className='text-xs text-white'>Polygon</div>
                     </div>
-                    <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center' onClick={() => { switchHandler('0x13881') }}>
+                    <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center cursor-pointer' onClick={() => { switchHandler('0x13881') }}>
                         <img src='https://seeklogo.com/images/P/polygon-matic-logo-86F4D6D773-seeklogo.com.png'
                             className='w-10 h-11 ml-3'></img>
-                        <div className='text-xs'>Mumbai</div>
+                        <div className='text-xs text-white'>Mumbai</div>
+                    </div>
+                    <div className='flex justify-between'  onClick={() => { switchHandler('0x38') }}>
+                        <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center cursor-pointer'>
+                            <img src='https://seeklogo.com/images/B/binance-coin-bnb-logo-97F9D55608-seeklogo.com.png'
+                                className='w-11 h-11 ml-2'></img>
+                            <div className='text-xs text-white'>Binance</div>
+                        </div>
                     </div>
                 </div>
-                <div className='pt-7 flex justify-between'  onClick={() => { switchHandler('0x38') }}>
-                    <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center'>
-                        <img src='https://seeklogo.com/images/B/binance-coin-bnb-logo-97F9D55608-seeklogo.com.png'
-                            className='w-11 h-11 ml-2'></img>
-                        <div className='text-xs'>Binance</div>
-                    </div>
                 </div>
-            {/* </Modal>  */}
+            </div>}
         </div>
     );
 };

@@ -295,7 +295,6 @@ button:focus {
 }
 
 .window {
-  z-index: 100;
   color: #fff;
   font-family: roboto;
   position: relative;
