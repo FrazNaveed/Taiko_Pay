@@ -50,37 +50,34 @@ export default function Ethers({ children }) {
 
   const getEmployeeTransactions = async () => {
     try {
-      const account = await getWallet()
-      const contract = getContract()
-      let emp = await contract.getEmployeeTransactions(account)
+      const account = await getWallet();
+      const contract = getContract();
+      let emp = await contract.getEmployeeTransactions(account);
       return emp;
+    } catch (e) {
+      console.log(e);
     }
-    catch (e) {
-      console.log(e)
-    }
-  }
+  };
 
   const getName = async () => {
     try {
-      const account = await getWallet()
-      const contract = getContract()
-      let name = await contract.Name(account)
+      const account = await getWallet();
+      const contract = getContract();
+      let name = await contract.Name(account);
       return name;
+    } catch (e) {
+      console.log(e);
     }
-    catch (e) {
-      console.log(e)
-    }
-  }
+  };
   const getEmployeeName = async (address) => {
     try {
-      const contract = getContract()
-      let name = await contract.Name(address)
+      const contract = getContract();
+      let name = await contract.Name(address);
       return name;
+    } catch (e) {
+      console.log(e);
     }
-    catch (e) {
-      console.log(e)
-    }
-  }
+  };
   // const reqCompany = async () => {
   //   try {
   //     const account = await getWallet()
@@ -108,17 +105,17 @@ export default function Ethers({ children }) {
   //   }
   // }
   const createAccount = async (name) => {
-      try{
-        const contract = getContract()
-        if(name==="") return alert("Please fill your name before sign in")
-        let res = await contract.registerUser(name)
-        await res.wait()
-        alert("You have been succefully registerd")
-        window.location.reload()
-      }catch(e){
-        console.log(e);
-      }
-  }
+    try {
+      const contract = getContract();
+      if (name === "") return alert("Please fill your name before sign in");
+      let res = await contract.registerUser(name);
+      await res.wait();
+      alert("You have been succefully registerd");
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   // const sendJoinRequest = async (CompanyAddress) => {
   //   try {
   //     const contract = getContract()
@@ -158,100 +155,94 @@ export default function Ethers({ children }) {
   // }
   const changeEmployeeSalary = async (newSal, empAddr) => {
     try {
-      const contract = getContract()
-      let res = await contract.changeEmployeeSalary(newSal, empAddr)
-      console.log(res)
-      await res.wait()
-      alert("Succefully changed the salary")
+      const contract = getContract();
+      let res = await contract.changeEmployeeSalary(newSal, empAddr);
+      console.log(res);
+      await res.wait();
+      alert("Succefully changed the salary");
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-    }
-  }
+  };
 
   const getCompanyTransactions = async () => {
     try {
-      const account = await getWallet()
-      const contract = getContract()
-      let res = await contract.getCompanyTransactions(account)
-      return res
+      const account = await getWallet();
+      const contract = getContract();
+      let res = await contract.getCompanyTransactions(account);
+      return res;
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-    }
-  }
+  };
 
   const addEmployee = async (address, salary, name) => {
     try {
-      const contract = getContract()
-      let res = await contract.addEmployee(salary,address)
-      await res.wait()
-      alert(`Succefully added ${name} with salary of ${salary} matic`)
+      const contract = getContract();
+      let res = await contract.addEmployee(ethers.utils.parseEther(salary), address);
+      await res.wait();
+      alert(`Succefully added ${name} with salary of ${salary} matic`);
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-    }
-  }
+  };
   const removeEmployee = async (empAddr) => {
     try {
-      const contract = getContract()
-      let res = await contract.removeEmployee(empAddr)
-      await res.wait()
-      alert("Succefully removed the employee")
-      window.location.reload()
+      const contract = getContract();
+      let res = await contract.removeEmployee(empAddr);
+      await res.wait();
+      alert("Succefully removed the employee");
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-    }
-  }
+  };
   const payEmployees = async () => {
     try {
-      const contract = getContract()
-      const totalSal =await  calculateTotalSalary()
+      const account = await getWallet();
+      const contract = getContract();
+      let totalSal = await contract.calculateTotalSalary(account);
+      console.log(totalSal)
       let overrides = {
-        value: ethers.utils.parseEther(totalSal.toString()) ,
-        gasLimit: 1000000
+        value: totalSal._hex,
+        gasLimit: 1000000,
       };
       let res = await contract.payEmployees(overrides);
-      await res.wait()
-      console.log(res)
-      alert("Congratulations salary was distributed succefully")
+      await res.wait();
+      console.log(res);
+      alert("Congratulations salary was distributed succefully");
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-    }
-  }
+  };
   const calculateTotalSalary = async () => {
     try {
-      const account = await getWallet()
-      const contract = getContract()
-      let res = await contract.calculateTotalSalary(account)
-      res = res.div(10 ** 18 + "")
-      return parseInt(res._hex, 16)
+      const account = await getWallet();
+      const contract = getContract();
+      let res = await contract.calculateTotalSalary(account);
+      return ethers.utils.formatEther(res);
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
+      return 0;
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-      return 0
-    }
-  }
+  };
   const getEmployeeList = async () => {
     try {
-      const account = await getWallet()
-      const contract = getContract()
-      let res = await contract.getEmployeeList(account)
-      return res
+      const account = await getWallet();
+      const contract = getContract();
+      let res = await contract.getEmployeeList(account);
+      return res;
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
     }
-    catch (e) {
-      console.log(e)
-      alert("Something went wrong, try again")
-    }
-  }
+  };
   // const getWaitingList = async (cmpAddr) => {
   //   try {
   //     const contract = getContract()

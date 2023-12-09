@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 contract Payroll {
     mapping(address=>string) public Name;
+
     struct salaryStruct{
         uint256 amount;
         uint256 time;
@@ -72,12 +73,13 @@ contract Payroll {
     
    
     function payEmployees() public payable{
+        // require(isEmployee[msg.sender]==2, "only companies can send salary");
         uint256 totalSal = calculateTotalSalary(msg.sender);
         require(msg.value>= totalSal, "please send the right amount");
         uint length = Company[msg.sender].EmployeeList.length;
         for (uint i = 0; i < length ; i++){
             EmployeeStruct memory employee = Company[msg.sender].EmployeeList[i];
-            payable(employee.wallet).transfer(employee.salary * 1 ether);
+            payable(employee.wallet).transfer(employee.salary);
             EmployeeHistory[employee.wallet].push(salaryStruct(employee.salary,block.timestamp, Name[msg.sender]));
         }
         Company[msg.sender].salaryHistory.push(salaryStruct(totalSal, block.timestamp,Name[msg.sender]));
@@ -89,7 +91,7 @@ contract Payroll {
         uint length = Company[company].EmployeeList.length;
         for (uint i = 0; i < length ; i++){
             EmployeeStruct memory employee = Company[msg.sender].EmployeeList[i];
-             total+=employee.salary * 1 ether;
+             total+=employee.salary;
         }
         return total;
     }
