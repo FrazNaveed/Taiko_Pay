@@ -13,12 +13,10 @@ export default function Ethers({ children }) {
   const scrollContract = "0x9c6F28Af5c71aC91a511d475A0ac2B609719e020";
   const mumbaiContract = "0xCc2973d5c3C346892d296d56aFeCc2A1f06bB897"
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [chainId, setChainId] = useState("0x13881");
-  const [EmpWallet, setEmpWallet] = useState()
+  const [chainId, setChainId] = useState(window.ethereum.networkVersion);
+  const [EmpWallet, setEmpWallet] = useState('0')
   const [isLoading, setisLoading] = useState(false);
-  const provider = new ethers.providers.Web3Provider(ethereum)
-  const signer = provider.getSigner()
-  const [Contract, setContract] = useState(new ethers.Contract(contractAddress, abi, signer))
+  const [Contract, setContract] = useState(null)
   const navigate = useNavigate()
 
   const checkIfWalletIsConnect = async () => {
@@ -63,14 +61,15 @@ export default function Ethers({ children }) {
 
   const getName = async () => {
     try {
-      const account = await getWallet();
-      const contract = getContract();
-      let name = await contract.Name(account);
+      const account = await getWallet()
+      const contract = getContract()
+      let name = await contract.Name(account)
       return name;
-    } catch (e) {
-      console.log(e);
     }
-  };
+    catch (e) {
+      console.log(e)
+    }
+  }
   const getEmployeeName = async (address) => {
     try {
       const contract = getContract();
@@ -109,7 +108,8 @@ export default function Ethers({ children }) {
   const createAccount = async (name) => {
     try {
       const contract = getContract();
-      if (name === "") return alert("Please fill your name before sign in");
+      if (name === "" || name==null) return alert("Please fill your name before sign in");
+      console.log(name);
       let res = await contract.registerUser(name);
       await res.wait();
       alert("You have been succefully registerd");
@@ -276,7 +276,7 @@ export default function Ethers({ children }) {
       if (Contract == null) {
         const provider = new ethers.providers.Web3Provider(ethereum)
         const signer = provider.getSigner()
-        const contract = new ethers.Contract(contractAddress, abi, signer)
+        const contract = new ethers.Contract(getContractAddress(chainId), abi, signer)
         setContract(contract)
         return contract
       }
@@ -286,16 +286,40 @@ export default function Ethers({ children }) {
       return null
     }
   }
-
+  const changeContract = (chain)=>{
+    try {
+      const provider = new ethers.providers.Web3Provider(ethereum)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(getContractAddress(chain), abi, signer)
+      setContract(contract)
+      return contract
+    } catch (e) {
+      alert(e)
+      return null
+    }
+  }
+  const getContractAddress = (chain)=>{
+    console.log("getContractAddress", chain);
+    try {
+      if (chain == 80001) return mumbaiContract
+      else if (chain == 534351) return scrollContract
+      else return contractAddress;
+    } catch (e) {
+      alert(e)
+      return null
+    }
+  }
 
   const switchNetwork = async (hexChain) => {
     setisLoading(true)
+    const provider = new ethers.providers.Web3Provider(ethereum)
     try {
-      console.log("switching");
+      //console.log("switching", hexChain);
       await provider.provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: chainIdMapping[hexChain].hex }],
       });
+      changeContract(hexChain);
       navigate("/")
     } catch (switchError) {
       console.log(switchError);

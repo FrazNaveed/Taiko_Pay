@@ -27,6 +27,20 @@ export const chainIdMapping = {
         nativeCurrency: { name: 'BNB', decimals: 18, symbol: 'BNB' },
         hex: "0x38"
     },
+    "0x8274F": {
+        name: "Scroll Sepolia Testnet",
+        rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
+        blockExplorerUrls: ["https://sepolia.scrollscan.com"],
+        nativeCurrency: { name: 'ETH', decimals: 18, symbol: 'ETH' },
+        hex: "0x8274F"
+    },
+    534351:{
+        name: "Scroll Sepolia Testnet",
+        rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
+        blockExplorerUrls: ["https://sepolia.scrollscan.com"],
+        nativeCurrency: { name: 'ETH', decimals: 18, symbol: 'ETH' },
+        hex: "0x8274F"
+    },
     56: {
         name: "Smart Chain",
         rpcUrls: ["https://bsc-dataseed.binance.org/"],
