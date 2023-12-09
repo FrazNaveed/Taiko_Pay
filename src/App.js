@@ -12,7 +12,6 @@ import { Header } from './Components/header';
 function App() {
   return (
     <div className="min-h-screen">
-      <Header/>
           <Routes>
           <Route path='/' exact element={<Home/>}></Route>
           <Route path='/company'  element={<CompanyPage/>}></Route>

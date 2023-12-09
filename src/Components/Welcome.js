@@ -29,7 +29,7 @@ const Welcome = () => {
     else alert("Something went wrong please try again later")
   }
   return (
-    <div className="wel_main">
+    <div className="wel_main mt-10">
       <div className="wel_sub">
         <Row>
           <Col sm={9} xs={10} lg={6} md={6}>
