@@ -1,9 +1,5 @@
 <h1>Payroll Dapp</h1>
-<h2>MEMBERS:</h2>
-1. TCR20CS024: ASHITHA PR
-2. TCR20CS025: A T ASWINI
-3. TCR20CS061: TASLIM MUHAMMED MOOSA
-4. TCR20CS069: AISWARYA K K
+
 <h2>AREA OF INTEREST:<h2> BLOCKCHAIN
 <h2>TOPIC:</h2> PayRoll Dapp
 <h2>Problem Statement: -</h2>
@@ -62,3 +58,4 @@ investigations.
 organizations comply with regulations such as tax laws, data
 protection laws, and labour laws, by providing an auditable trail of all
 transactions.
+Mutichain implementation
