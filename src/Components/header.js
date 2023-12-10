@@ -18,7 +18,7 @@ export const Header = () => {
         <Container className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0 text-white mr-6">
             <div className="block mt-4 lg:inline-block lg:mt-0">
-              <span className="font-bold text-4xl tracking-tight">XPAY</span>
+              <span className="font-bold text-4xl tracking-tight">XPay</span>
             </div>
           </div>
 
