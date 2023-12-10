@@ -24,6 +24,7 @@ function Company() {
     console.log(emp_list);
     if(totalSal) setTotalSal(totalSal)
     if(emp_list) setEmpList(emp_list)
+    console.log(emp_list);
     if(name) setName(name)
     setLoaded(true)
   }
@@ -75,7 +76,7 @@ function Company() {
           <div className='emp_list'>
             {/* iterating part  */}{
               EmpList.map((employee, index)=>{
-                let etherValue = parseInt(employee.salary._hex, 16)
+                let etherValue = ethers.utils.formatEther(employee.salary)
                 console.log(etherValue);
                 return (<div className='flex  text-xl bg-yellow-100 bg-opacity-20 backdrop-blur-lg rounded drop-shadow-lg py-2 mr-5 mb-3'>
                   <div className='text-blue-500 w-6  p-2 '>

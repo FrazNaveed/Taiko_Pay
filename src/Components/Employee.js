@@ -60,6 +60,7 @@ function Employee() {
                       let etherValue = parseInt(transaction.amount._hex, 16)
                       const date = new Date(parseInt(transaction.time, 16) * 1000);
                       return (<div className='tr_card'>
+                        <div className='tr_amount'>{transaction.sender}</div>
                         <div className='tr_amount'>{etherValue} matic</div>
                         <div className="trtime">{date.getDate()}/{date.getMonth()}/2023 {date.getHours()}:{date.getMinutes()}</div>
                       </div>)

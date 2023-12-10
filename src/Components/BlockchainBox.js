@@ -93,16 +93,16 @@ const BlockchainBox = () => {
                             className='w-10 h-11 ml-3'></img>
                         <div className='text-xs text-white'>Mumbai</div>
                     </div>
-                        <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center cursor-pointer' onClick={() => {  switchHandler('0x89') }}>
-                        <img src='https://seeklogo.com/images/P/polygon-matic-logo-86F4D6D773-seeklogo.com.png'
+                        <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center cursor-pointer' onClick={() => { switchHandler('0xAEF3') }}>
+                            <img src='https://cryptocurrencyjobs.co/startups/assets/logos/celo_hu16ec5e442b365c4fc46deacc11fea672_8347_64x0_resize_q75_box.jpg'
                             className='w-10 h-11 ml-3'></img>
-                        <div className='text-xs text-white'>Polygon</div>
+                        <div className='text-xs text-white'>Cello</div>
                     </div>
                     <div className='flex justify-between'  onClick={() => { switchHandler('0x38') }}>
                         <div className='h-16 w-16 bg-stone-900  rounded-md flex flex-col justify-center text-center cursor-pointer'>
-                            <img src='https://seeklogo.com/images/B/binance-coin-bnb-logo-97F9D55608-seeklogo.com.png'
+                                <img src='https://seeklogo.com/images/A/arbitrum-logo-DE8649D718-seeklogo.com.png'
                                 className='w-11 h-11 ml-2'></img>
-                            <div className='text-xs text-white'>Binance</div>
+                            <div className='text-xs text-white'>Arbitrium</div>
                         </div>
                     </div>
                 </div>

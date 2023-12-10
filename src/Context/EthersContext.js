@@ -11,7 +11,8 @@ if(!ethereum) alert("Please install metamask to use the application")
 export default function Ethers({ children }) {
   const contractAddress = "0x3e3af332c1fd7b1eb5d35c49d0f6cee46a13df40"
   const scrollContract = "0x9c6F28Af5c71aC91a511d475A0ac2B609719e020";
-  const mumbaiContract = "0xCc2973d5c3C346892d296d56aFeCc2A1f06bB897"
+  const mumbaiContract = "0xCc2973d5c3C346892d296d56aFeCc2A1f06bB897";
+  const celloContract = "0x34C93Db9E2c3a5897054891d07D742771b6dF5Be"
   const [currentAccount, setCurrentAccount] = useState(null);
   const [chainId, setChainId] = useState(window.ethereum.networkVersion);
   const [EmpWallet, setEmpWallet] = useState('0')
@@ -303,6 +304,7 @@ export default function Ethers({ children }) {
     try {
       if (chain == 80001) return mumbaiContract
       else if (chain == 534351) return scrollContract
+      else if (chain == 44787) return celloContract
       else return contractAddress;
     } catch (e) {
       alert(e)

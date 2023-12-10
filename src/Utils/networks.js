@@ -34,6 +34,34 @@ export const chainIdMapping = {
         nativeCurrency: { name: 'ETH', decimals: 18, symbol: 'ETH' },
         hex: "0x8274F"
     },
+    "0x66EED": {
+        name: "Arbitrum Goerli",
+        rpcUrls: ["https://endpoints.omniatech.io/v1/arbitrum/goerli/public"],
+        blockExplorerUrls: ["https://goerli.arbiscan.io"],
+        nativeCurrency: { name: 'AGOR', decimals: 18, symbol: 'AGOR' },
+        hex: "0x66EED"
+    },
+    "0xAEF3": {
+        name: "Celo Alfajores Testnet",
+        rpcUrls: ["https://alfajores-forno.celo-testnet.org"],
+        blockExplorerUrls: ["https://goerli.arbiscan.io"],
+        nativeCurrency: { name: 'CELO', decimals: 18, symbol: 'CELO' },
+        hex: "0xAEF3"
+    },
+    44787: {
+        name: "Celo Alfajores Testnet",
+        rpcUrls: ["https://alfajores-forno.celo-testnet.org"],
+        blockExplorerUrls: ["https://goerli.arbiscan.io"],
+        nativeCurrency: { name: 'CELO', decimals: 18, symbol: 'CELO' },
+        hex: "0xAEF3"
+    },
+    421613:{
+        name: "Arbitrum Goerli",
+        rpcUrls: ["https://endpoints.omniatech.io/v1/arbitrum/goerli/public"],
+        blockExplorerUrls: ["https://goerli.arbiscan.io"],
+        nativeCurrency: { name: 'AGOR', decimals: 18, symbol: 'AGOR' },
+        hex: "0x66EED"
+    },
     534351:{
         name: "Scroll Sepolia Testnet",
         rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
