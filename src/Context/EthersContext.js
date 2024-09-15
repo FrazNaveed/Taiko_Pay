@@ -1,24 +1,23 @@
 import { ethers } from "ethers";
 import { createContext, useState, useEffect } from "react";
 import { abi } from "../Utils/abi";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { chainIdMapping } from "../Utils/networks";
 
 export const EthersContext = createContext(null);
-const { ethereum } = window
-if(!ethereum) alert("Please install metamask to use the application")
+const { ethereum } = window;
+if (!ethereum) alert("Please install metamask to use the application");
 
 export default function Ethers({ children }) {
-  const contractAddress = "0x3e3af332c1fd7b1eb5d35c49d0f6cee46a13df40"
-  const scrollContract = "0x9c6F28Af5c71aC91a511d475A0ac2B609719e020";
-  const mumbaiContract = "0xCc2973d5c3C346892d296d56aFeCc2A1f06bB897";
-  const celloContract = "0x34C93Db9E2c3a5897054891d07D742771b6dF5Be"
+  const contractAddressTestnet = "0x11c59ad9697d782A5013fA292991841fB3DaD187";
+  const contractAddressMainnet = "0xB9d37068Bd3586aEa1b0B120D183eB7A390312f7";
+
   const [currentAccount, setCurrentAccount] = useState(null);
   const [chainId, setChainId] = useState(window.ethereum.networkVersion);
-  const [EmpWallet, setEmpWallet] = useState('0')
+  const [EmpWallet, setEmpWallet] = useState("0");
   const [isLoading, setisLoading] = useState(false);
-  const [Contract, setContract] = useState(null)
-  const navigate = useNavigate()
+  const [Contract, setContract] = useState(null);
+  const navigate = useNavigate();
 
   const checkIfWalletIsConnect = async () => {
     try {
@@ -28,10 +27,12 @@ export default function Ethers({ children }) {
 
       if (accounts.length) {
         setCurrentAccount(accounts[0]);
-        const network = window.ethereum.networkVersion
+        const network = window.ethereum.networkVersion;
         setChainId(network);
       } else {
-        alert("No accounts found, please click the connect wallet button to proceed");
+        alert(
+          "No accounts found, please click the connect wallet button to proceed"
+        );
       }
     } catch (error) {
       console.log(error);
@@ -40,7 +41,9 @@ export default function Ethers({ children }) {
   const connectWallet = async () => {
     try {
       if (!ethereum) return alert("Please install MetaMask.");
-      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await ethereum.request({
+        method: "eth_requestAccounts",
+      });
       setCurrentAccount(accounts[0]);
       window.location.reload();
     } catch (error) {
@@ -62,15 +65,14 @@ export default function Ethers({ children }) {
 
   const getName = async () => {
     try {
-      const account = await getWallet()
-      const contract = getContract()
-      let name = await contract.Name(account)
+      const account = await getWallet();
+      const contract = getContract();
+      let name = await contract.Name(account);
       return name;
+    } catch (e) {
+      console.log(e);
     }
-    catch (e) {
-      console.log(e)
-    }
-  }
+  };
   const getEmployeeName = async (address) => {
     try {
       const contract = getContract();
@@ -109,7 +111,8 @@ export default function Ethers({ children }) {
   const createAccount = async (name) => {
     try {
       const contract = getContract();
-      if (name === "" || name==null) return alert("Please fill your name before sign in");
+      if (name === "" || name == null)
+        return alert("Please fill your name before sign in");
       console.log(name);
       let res = await contract.registerUser(name);
       await res.wait();
@@ -184,7 +187,10 @@ export default function Ethers({ children }) {
   const addEmployee = async (address, salary, name) => {
     try {
       const contract = getContract();
-      let res = await contract.addEmployee(ethers.utils.parseEther(salary), address);
+      let res = await contract.addEmployee(
+        ethers.utils.parseEther(salary),
+        address
+      );
       await res.wait();
       alert(`Succefully added ${name} with salary of ${salary} matic`);
     } catch (e) {
@@ -209,7 +215,7 @@ export default function Ethers({ children }) {
       const account = await getWallet();
       const contract = getContract();
       let totalSal = await contract.calculateTotalSalary(account);
-      console.log(totalSal)
+      console.log(totalSal);
       let overrides = {
         value: totalSal._hex,
         gasLimit: 1000000,
@@ -258,94 +264,93 @@ export default function Ethers({ children }) {
   //   }
   // }
 
-
-  const getWallet= async()=>{
-    try{
-      if(currentAccount==null){
-      const accounts = await ethereum.request({ method: "eth_accounts" })
-      const account = accounts[0]
-      return account
-        }
-      else return currentAccount
-    }catch(e){
-     alert(e)
+  const getWallet = async () => {
+    try {
+      if (currentAccount == null) {
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        const account = accounts[0];
+        return account;
+      } else return currentAccount;
+    } catch (e) {
+      alert(e);
     }
-  }
+  };
 
-  const getContract = ()=>{
+  const getContract = () => {
     try {
       if (Contract == null) {
-        const provider = new ethers.providers.Web3Provider(ethereum)
-        const signer = provider.getSigner()
-        const contract = new ethers.Contract(getContractAddress(chainId), abi, signer)
-        setContract(contract)
-        return contract
-      }
-      else return Contract
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+          getContractAddress(chainId),
+          abi,
+          signer
+        );
+        setContract(contract);
+        return contract;
+      } else return Contract;
     } catch (e) {
-      alert(e)
-      return null
+      alert(e);
+      return null;
     }
-  }
-  const changeContract = (chain)=>{
+  };
+  const changeContract = (chain) => {
     try {
-      const provider = new ethers.providers.Web3Provider(ethereum)
-      const signer = provider.getSigner()
-      const contract = new ethers.Contract(getContractAddress(chain), abi, signer)
-      setContract(contract)
-      return contract
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        getContractAddress(chain),
+        abi,
+        signer
+      );
+      setContract(contract);
+      return contract;
     } catch (e) {
-      alert(e)
-      return null
+      alert(e);
+      return null;
     }
-  }
-  const getContractAddress = (chain)=>{
+  };
+  const getContractAddress = (chain) => {
     console.log("getContractAddress", chain);
     try {
-      if (chain == 80001) return mumbaiContract
-      else if (chain == 534351) return scrollContract
-      else if (chain == 44787) return celloContract
-      else return contractAddress;
+      if (chain == 167009) return contractAddressTestnet;
+      else return contractAddressMainnet;
     } catch (e) {
-      alert(e)
-      return null
+      alert(e);
+      return null;
     }
-  }
+  };
 
   const switchNetwork = async (hexChain) => {
-    setisLoading(true)
-    const provider = new ethers.providers.Web3Provider(ethereum)
+    setisLoading(true);
+    const provider = new ethers.providers.Web3Provider(window.ethereum); // Use `window.ethereum`
     try {
-      //console.log("switching", hexChain);
-      await provider.provider.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainIdMapping[hexChain].hex }],
-      });
+      console.log("switching", hexChain);
+      await provider.send("wallet_switchEthereumChain", [
+        { chainId: chainIdMapping[hexChain].hex },
+      ]);
       changeContract(hexChain);
-      navigate("/")
+      navigate("/");
     } catch (switchError) {
       console.log(switchError);
-      // This error code indicates that the chain has not been added to MetaMask.
       if (switchError.code === 4902) {
         try {
-          await provider.provider.request({
-            method: "wallet_addEthereumChain",
-            params: [
-              {
-                chainId: chainIdMapping[hexChain].hex,
-                chainName: chainIdMapping[hexChain].name,
-                rpcUrls: [chainIdMapping[hexChain].rpcUrls],
-                blockExplorerUrls: [chainIdMapping[hexChain].blockExplorerUrls],
-              },
-            ],
-          });
-          navigate("/")
+          await provider.send("wallet_addEthereumChain", [
+            {
+              chainId: chainIdMapping[hexChain].hex,
+              chainName: chainIdMapping[hexChain].name,
+              rpcUrls: chainIdMapping[hexChain].rpcUrls,
+              blockExplorerUrls: chainIdMapping[hexChain].blockExplorerUrls,
+              nativeCurrency: chainIdMapping[hexChain].nativeCurrency,
+            },
+          ]);
+          navigate("/");
         } catch (addError) {
           console.log(addError);
         }
       }
     }
-    setisLoading(false)
+    setisLoading(false);
   };
 
   useEffect(() => {
@@ -353,10 +358,31 @@ export default function Ethers({ children }) {
     //connectWallet()
   }, []);
 
-
   return (
-    <EthersContext.Provider value={{ connectWallet, currentAccount, getName, checkIfWalletIsConnect, getEmployeeTransactions, createAccount, getEmployeeList, calculateTotalSalary, removeEmployee, changeEmployeeSalary, addEmployee, payEmployees, getEmployeeName, setEmpWallet, EmpWallet, getCompanyTransactions, chainId, setChainId, switchNetwork }}>
+    <EthersContext.Provider
+      value={{
+        connectWallet,
+        currentAccount,
+        getName,
+        checkIfWalletIsConnect,
+        getEmployeeTransactions,
+        createAccount,
+        getEmployeeList,
+        calculateTotalSalary,
+        removeEmployee,
+        changeEmployeeSalary,
+        addEmployee,
+        payEmployees,
+        getEmployeeName,
+        setEmpWallet,
+        EmpWallet,
+        getCompanyTransactions,
+        chainId,
+        setChainId,
+        switchNetwork,
+      }}
+    >
       {children}
     </EthersContext.Provider>
-  )
+  );
 }
