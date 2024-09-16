@@ -9,22 +9,28 @@ const companyCommonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Welcome = () => {
-  const { isEmployee, createAccount, getName, currentAccount, connectWallet } =
-    useContext(EthersContext);
+  const {
+    isEmployee,
+    registerCompany,
+    getName,
+    currentAccount,
+    connectWallet,
+  } = useContext(EthersContext);
   const [Selection, setSelection] = useState(true);
   const [Name, setName] = useState();
   const [Rname, setRname] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    initiator();
-  }, []);
-  const initiator = async () => {
-    let name = await getName();
-    if (name) setRname(name);
-  };
+
+  // useEffect(() => {
+  //   initiator();
+  // }, []);
+  // const initiator = async () => {
+  //   let name = await getName();
+  //   if (name) setRname(name);
+  // };
 
   const handleCreate = async () => {
-    let res = await createAccount(Name);
+    let res = await registerCompany();
     if (res) setSelection(false);
     else alert("Something went wrong please try again later");
   };
@@ -57,19 +63,19 @@ const Welcome = () => {
                     <div className="content">
                       <h4>Make an account & start paying your team members</h4>
                       <div className="input-fields my-7">
-                        <input
+                        {/* <input
                           type="text"
                           placeholder="Name of the Company"
                           className="input-line full-width"
                           onChange={(e) => setName(e.target.value)}
-                        />
+                        /> */}
                       </div>
                       <div>
                         <button
                           className="ghost-round full-width"
                           onClick={handleCreate}
                         >
-                          Create Account
+                          Register Company
                         </button>
                       </div>
                       <h4>Or</h4>

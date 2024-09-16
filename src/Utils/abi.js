@@ -1,43 +1,20 @@
 export const abi = [
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "salary",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "employee",
-        type: "address",
-      },
-    ],
-    name: "addEmployee",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "newSal",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "employee",
-        type: "address",
-      },
-    ],
-    name: "changeEmployeeSalary",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
-    name: "payEmployees",
+    name: "claimSalary",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+    ],
+    name: "depositPayroll",
     outputs: [],
     stateMutability: "payable",
     type: "function",
@@ -45,185 +22,144 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_salary",
+        type: "uint256",
       },
     ],
-    name: "registerUser",
+    name: "registerEmployee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
         internalType: "address",
         name: "employee",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "salary",
+        type: "uint256",
+      },
     ],
-    name: "removeEmployee",
+    name: "EmployeeRegistered",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employer",
+        type: "address",
+      },
+    ],
+    name: "registerEmployer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
         internalType: "address",
-        name: "company",
-        type: "address",
-      },
-    ],
-    name: "calculateTotalSalary",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
+        name: "employee",
         type: "address",
       },
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "EmployeeHistory",
-    outputs: [
-      {
+        indexed: false,
         internalType: "uint256",
         name: "amount",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "time",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "sender",
-        type: "string",
-      },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "SalaryClaimed",
+    type: "event",
   },
   {
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
         internalType: "address",
-        name: "company",
+        name: "employer",
         type: "address",
       },
-    ],
-    name: "getCompanyTransactions",
-    outputs: [
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "time",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "sender",
-            type: "string",
-          },
-        ],
-        internalType: "struct Payroll.salaryStruct[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "company",
-        type: "address",
-      },
-    ],
-    name: "getEmployeeList",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "wallet",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "salary",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "name",
-            type: "string",
-          },
-        ],
-        internalType: "struct Payroll.EMP[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
+        indexed: true,
         internalType: "address",
         name: "employee",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
-    name: "getEmployeeTransactions",
+    name: "SalaryDeposited",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_newSalary",
+        type: "uint256",
+      },
+    ],
+    name: "updateSalary",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "employees",
     outputs: [
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "time",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "sender",
-            type: "string",
-          },
-        ],
-        internalType: "struct Payroll.salaryStruct[]",
-        name: "",
-        type: "tuple[]",
+        internalType: "uint256",
+        name: "salary",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "lastPayTime",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isRegistered",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -237,12 +173,38 @@ export const abi = [
         type: "address",
       },
     ],
-    name: "Name",
+    name: "employers",
     outputs: [
       {
-        internalType: "string",
+        internalType: "bool",
         name: "",
-        type: "string",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "payInterval",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",

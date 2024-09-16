@@ -5,7 +5,15 @@ import taiko from "../images/taiko.svg";
 
 const BlockchainBox = () => {
   const { chainId, switchNetwork } = useContext(EthersContext);
-  console.log("Chain Id", chainId);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Ensure the user stays on Taiko Mainnet or Testnet
+  useEffect(() => {
+    if (chainId !== "167000" && chainId !== "167009") {
+      switchNetwork("167009"); // Force to Taiko Mainnet
+    }
+  }, [chainId, switchNetwork]);
+
   const customStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -27,8 +35,6 @@ const BlockchainBox = () => {
     },
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const handleOpenModal = () => {
     setIsOpen(true);
   };
@@ -36,6 +42,7 @@ const BlockchainBox = () => {
   const handleCloseModal = () => {
     setIsOpen(false);
   };
+
   const switchHandler = async (chain) => {
     await switchNetwork(chain);
     setIsOpen(false);
@@ -49,16 +56,10 @@ const BlockchainBox = () => {
           className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           onClick={handleOpenModal}
         >
-          {chainIdMapping[chainId].name}
+          {chainIdMapping[chainId]?.name || "Unknown Network"}
         </button>
       </div>
 
-      {/* <Modal
-                isOpen={isOpen}
-                onRequestClose={handleCloseModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-            > */}
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-3 rounded-md">
@@ -94,20 +95,24 @@ const BlockchainBox = () => {
               <div
                 className="h-20 w-20 bg-stone-900 rounded-md flex flex-col justify-center items-center text-center cursor-pointer"
                 onClick={() => {
-                  switchHandler("167009");
+                  switchHandler("167009"); // Hekla Testnet
                 }}
               >
-                <img src={taiko} className="w-7 h-11 mb-1"></img>
+                <img src={taiko} className="w-7 h-11 mb-1" alt="Taiko Hekla" />
                 <div className="text-xs text-white">Hekla Testnet</div>
               </div>
 
               <div
                 className="h-20 w-20 bg-stone-900 rounded-md flex flex-col justify-center items-center text-center cursor-pointer"
                 onClick={() => {
-                  switchHandler("167000");
+                  switchHandler("167000"); // Taiko Mainnet
                 }}
               >
-                <img src={taiko} className="w-7 h-11 mb-1"></img>
+                <img
+                  src={taiko}
+                  className="w-7 h-11 mb-1"
+                  alt="Taiko Mainnet"
+                />
                 <div className="text-xs text-white">Mainnet</div>
               </div>
             </div>

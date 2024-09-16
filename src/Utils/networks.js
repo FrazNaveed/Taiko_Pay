@@ -11,6 +11,6 @@ export const chainIdMapping = {
     rpcUrls: ["https://rpc.ankr.com/taiko"],
     blockExplorerUrls: ["https://taikoscan.io"],
     nativeCurrency: { name: "ETH", decimals: 18, symbol: "ETH" },
-    hex: "0x28c61",
+    hex: "0x28c58",
   },
 };
