@@ -28,6 +28,14 @@ const Welcome = () => {
     if (res) setSelection(false);
     else alert("Something went wrong please try again later");
   };
+
+  const handleClaimSalary = async () => {
+    try {
+    } catch (error) {
+      console.error("Error claiming salary:", error);
+    }
+  };
+
   return (
     <div className="wel_main ">
       <div className="wel_sub">
@@ -64,30 +72,27 @@ const Welcome = () => {
                           Create Account
                         </button>
                       </div>
+                      <h4>Or</h4>
+                      <h4 className="mt-5">Claim your salary</h4>
+                      <div>
+                        <button
+                          className="ghost-round full-width"
+                          onClick={handleClaimSalary}
+                        >
+                          Claim Salary
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ) : (
                   <div className="window">
-                    <div className="overlay"></div>
                     <div className="content">
-                      <div className="welcome">Welcome !</div>
-                      <div className="subtitle space">
-                        Let's get started, please select your category.
-                      </div>
                       <div>
                         <button
                           className="ghost-round full-width"
                           onClick={() => navigate("/company")}
                         >
-                          Continue as a Managment
-                        </button>
-                      </div>
-                      <div>
-                        <button
-                          className="ghost-round full-width"
-                          onClick={() => navigate("/employee")}
-                        >
-                          Continue as an Employee
+                          Access Dashboard
                         </button>
                       </div>
                     </div>
