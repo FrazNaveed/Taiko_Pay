@@ -320,7 +320,7 @@ export default function Ethers({ children }) {
       return res ? true : false;
     } catch (e) {
       console.log(e);
-      alert("Something went wrong, try again");
+      //alert("Get connected or register yourself");
     }
   };
 
@@ -329,7 +329,7 @@ export default function Ethers({ children }) {
       const account = await getWallet();
       const contract = getContract();
       const result = await contract.isEmployee(account);
-      console.log("result", result);
+
       return result;
     } catch (error) {
       console.error("Error checking employee status:", error);

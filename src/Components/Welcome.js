@@ -9,28 +9,35 @@ const companyCommonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Welcome = () => {
-  const { isEmployer, registerCompany, connectWallet, isEmployee } =
-    useContext(EthersContext);
+  const {
+    isEmployer,
+    registerCompany,
+    isEmployee,
+    connectWallet,
+    currentAccount,
+  } = useContext(EthersContext);
   const [employerStatus, setEmployerStatus] = useState(null);
   const [employeeStatus, setEmployeeStatus] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const checkStatus = async () => {
-      try {
-        const employerRes = await isEmployer();
-        setEmployerStatus(employerRes);
+      if (currentAccount) {
+        try {
+          const employerRes = await isEmployer();
+          setEmployerStatus(employerRes);
 
-        const employeeRes = await isEmployee(); // Check if user is an employee
-        setEmployeeStatus(employeeRes);
-      } catch (error) {
-        console.error("Error checking status:", error);
-        setEmployerStatus(false);
-        setEmployeeStatus(false);
+          const employeeRes = await isEmployee(); // Check if user is an employee
+          setEmployeeStatus(employeeRes);
+        } catch (error) {
+          console.error("Error checking status:", error);
+          setEmployerStatus(false);
+          setEmployeeStatus(false);
+        }
       }
     };
     checkStatus();
-  }, [isEmployer, isEmployee]);
+  }, [currentAccount, isEmployer, isEmployee]);
 
   const handleCreate = async () => {
     await registerCompany();
@@ -63,7 +70,14 @@ const Welcome = () => {
             <div>
               <div className="window">
                 <div className="content">
-                  {employerStatus === null ? (
+                  {!currentAccount ? ( // Display connect wallet button if wallet is not connected
+                    <button
+                      className="ghost-round full-width"
+                      onClick={connectWallet}
+                    >
+                      Connect Wallet
+                    </button>
+                  ) : employerStatus === null ? (
                     <p>Checking status...</p>
                   ) : employerStatus ? (
                     <div>

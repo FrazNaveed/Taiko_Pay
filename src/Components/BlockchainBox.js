@@ -8,11 +8,11 @@ const BlockchainBox = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Ensure the user stays on Taiko Mainnet or Testnet
-  // useEffect(() => {
-  //   if (chainId !== "167000" && chainId !== "167009") {
-  //     switchNetwork("167009"); // Force to Taiko Mainnet
-  //   }
-  // }, [chainId, switchNetwork]);
+  useEffect(() => {
+    if (chainId !== "167000" && chainId !== "167009") {
+      switchNetwork("167009"); // Force to Taiko Mainnet
+    }
+  }, []);
 
   const customStyles = {
     overlay: {
