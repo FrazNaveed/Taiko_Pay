@@ -9,7 +9,7 @@ const { ethereum } = window;
 if (!ethereum) alert("Please install MetaMask to use the application");
 
 export default function Ethers({ children }) {
-  const contractAddressTestnet = "0x32CA3A3eb1846362F4Ae82ddBD1F202e37F6c889";
+  const contractAddressTestnet = "0x0aa490704Da19A22154Fed5A1783cEE9a7343A48";
   const contractAddressMainnet = "0xB9d37068Bd3586aEa1b0B120D183eB7A390312f7";
 
   const [currentAccount, setCurrentAccount] = useState(null);
