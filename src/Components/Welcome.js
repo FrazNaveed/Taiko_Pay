@@ -18,6 +18,7 @@ const Welcome = () => {
     const checkEmployerStatus = async () => {
       try {
         const res = await isEmployer();
+
         setEmployerStatus(res);
       } catch (error) {
         console.error("Error checking employer status:", error);

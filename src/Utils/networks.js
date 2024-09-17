@@ -13,4 +13,15 @@ export const chainIdMapping = {
     nativeCurrency: { name: "ETH", decimals: 18, symbol: "ETH" },
     hex: "0x28c58",
   },
+  11155111: {
+    name: "Sepolia",
+    rpcUrls: ["https://sepolia.infura.io/v3/17791caeae0b493489ca6d99f6530bc4"],
+    blockExplorerUrls: ["https://sepolia.etherscan.io"],
+    nativeCurrency: {
+      name: "ETH",
+      decimals: 18,
+      symbol: "ETH",
+    },
+    hex: "0x10f3",
+  },
 };

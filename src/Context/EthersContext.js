@@ -9,7 +9,7 @@ const { ethereum } = window;
 if (!ethereum) alert("Please install MetaMask to use the application");
 
 export default function Ethers({ children }) {
-  const contractAddressTestnet = "0x764b0f3dC7f8866cb7a67982d618044cEE87D1D2";
+  const contractAddressTestnet = "0x9FC682f62eE5957bFe3fa108c2c5d2bE713Db4ec";
   const contractAddressMainnet = "0xB9d37068Bd3586aEa1b0B120D183eB7A390312f7";
 
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -127,7 +127,10 @@ export default function Ethers({ children }) {
   const getContractAddress = (chain) => {
     try {
       if (chain == 167009) return contractAddressTestnet;
-      else return contractAddressMainnet;
+      else if (chain == 11155111) {
+        return contractAddressTestnet;
+      }
+      return contractAddressMainnet;
     } catch (e) {
       alert(e);
       return null;
@@ -187,15 +190,16 @@ export default function Ethers({ children }) {
     checkIfWalletIsConnected();
   }, []);
 
-  const addEmployee = async (address, salary, name) => {
+  const addEmployee = async (address, salary) => {
     try {
       const contract = getContract();
-      let res = await contract.addEmployee(
-        ethers.utils.parseEther(salary),
-        address
+      let res = await contract.registerEmployee(
+        address,
+        ethers.utils.parseEther(salary)
       );
       await res.wait();
-      alert(`Successfully added ${name} with salary of ${salary} ETH`);
+      alert(`Successfully added ${address} with salary of ${salary} ETH`);
+      window.location.reload();
     } catch (e) {
       console.log(e);
       alert("Something went wrong, try again");
@@ -219,7 +223,7 @@ export default function Ethers({ children }) {
     try {
       const account = await getWallet();
       const contract = getContract();
-      let totalSal = await contract.calculateTotalSalary(account);
+      let totalSal = await contract.getContractBalance();
       let overrides = {
         value: totalSal._hex,
         gasLimit: 1000000,
@@ -237,8 +241,8 @@ export default function Ethers({ children }) {
     try {
       const account = await getWallet();
       const contract = getContract();
-      let res = await contract.calculateTotalSalary(account);
-      return ethers.utils.formatEther(res);
+      // let res = await contract.calculateTotalSalary(account);
+      // return ethers.utils.formatEther(res);
     } catch (e) {
       console.log(e);
       alert("Something went wrong, try again");
@@ -250,7 +254,21 @@ export default function Ethers({ children }) {
     try {
       const account = await getWallet();
       const contract = getContract();
-      let res = await contract.getEmployeeList(account);
+      let res = await contract.getEmployeeList();
+      return res;
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
+    }
+  };
+
+  const getEmployeeNumber = async () => {
+    try {
+      const account = await getWallet();
+      const contract = getContract();
+      let res = await contract.getEmployeeNumber();
+      res = res.toString();
+      console.log("total employees", res);
       return res;
     } catch (e) {
       console.log(e);
@@ -265,6 +283,7 @@ export default function Ethers({ children }) {
       let res = await contract.registerEmployer(account);
       await res.wait();
       alert("Successfully registered the company");
+      window.location.reload();
     } catch (e) {
       console.log(e);
       alert("Something went wrong, try again");
@@ -276,6 +295,7 @@ export default function Ethers({ children }) {
       const contract = getContract();
       const account = await getWallet();
       let res = await contract.employers(account);
+      console.log("is employer", res);
       return res ? true : false;
     } catch (e) {
       console.log(e);
@@ -299,6 +319,7 @@ export default function Ethers({ children }) {
         switchNetwork,
         registerCompany,
         isEmployer,
+        getEmployeeNumber,
       }}
     >
       {children}

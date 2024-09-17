@@ -7,34 +7,10 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_employee",
-        type: "address",
-      },
-    ],
+    inputs: [],
     name: "depositPayroll",
     outputs: [],
     stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_employee",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_salary",
-        type: "uint256",
-      },
-    ],
-    name: "registerEmployee",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -62,6 +38,37 @@ export const abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "employee",
+        type: "address",
+      },
+    ],
+    name: "EmployeeRemoved",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_salary",
+        type: "uint256",
+      },
+    ],
+    name: "registerEmployee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -70,6 +77,19 @@ export const abi = [
       },
     ],
     name: "registerEmployer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+    ],
+    name: "removeEmployee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -103,15 +123,9 @@ export const abi = [
         type: "address",
       },
       {
-        indexed: true,
-        internalType: "address",
-        name: "employee",
-        type: "address",
-      },
-      {
         indexed: false,
         internalType: "uint256",
-        name: "amount",
+        name: "totalAmount",
         type: "uint256",
       },
     ],
@@ -121,19 +135,20 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_employee",
-        type: "address",
-      },
-      {
         internalType: "uint256",
-        name: "_newSalary",
+        name: "",
         type: "uint256",
       },
     ],
-    name: "updateSalary",
-    outputs: [],
-    stateMutability: "nonpayable",
+    name: "employeeList",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -179,6 +194,77 @@ export const abi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getContractBalance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getEmployeeList",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getEmployeeNumber",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+    ],
+    name: "getEmployeeSalary",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getTotalSalaries",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",

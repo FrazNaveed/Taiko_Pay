@@ -102,6 +102,7 @@ background: linear-gradient(130deg,  #9945FF 0%, #14F195 100%); */
   padding: 20px;
   font-family: "Courier New", Courier, monospace;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
