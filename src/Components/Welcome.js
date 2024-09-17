@@ -33,10 +33,7 @@ const Welcome = () => {
   }, [isEmployer, isEmployee]);
 
   const handleCreate = async () => {
-    let res = await registerCompany();
-    if (!res) {
-      alert("Something went wrong please try again later");
-    }
+    await registerCompany();
   };
 
   const handleClaimSalary = async () => {
