@@ -9,66 +9,70 @@ const companyCommonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Welcome = () => {
-  const {
-    isEmployee,
-    registerCompany,
-    getName,
-    currentAccount,
-    connectWallet,
-  } = useContext(EthersContext);
-  const [Selection, setSelection] = useState(true);
-  const [Name, setName] = useState();
-  const [Rname, setRname] = useState("");
+  const { isEmployer, registerCompany, connectWallet } =
+    useContext(EthersContext);
+  const [employerStatus, setEmployerStatus] = useState(null);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   initiator();
-  // }, []);
-  // const initiator = async () => {
-  //   let name = await getName();
-  //   if (name) setRname(name);
-  // };
+  useEffect(() => {
+    const checkEmployerStatus = async () => {
+      try {
+        const res = await isEmployer();
+        setEmployerStatus(res);
+      } catch (error) {
+        console.error("Error checking employer status:", error);
+        setEmployerStatus(false);
+      }
+    };
+    checkEmployerStatus();
+  }, [isEmployer]);
 
   const handleCreate = async () => {
     let res = await registerCompany();
-    if (res) setSelection(false);
-    else alert("Something went wrong please try again later");
+    if (!res) {
+      alert("Something went wrong please try again later");
+    }
   };
 
   const handleClaimSalary = async () => {
     try {
+      // Your claim salary logic
     } catch (error) {
       console.error("Error claiming salary:", error);
     }
   };
 
   return (
-    <div className="wel_main ">
+    <div className="wel_main">
       <div className="wel_sub">
         <Row>
           <Col sm={9} xs={10} lg={6} md={6}>
             <div className="flex flex-1 justify-start items-start flex-col mf:mr-10 w-full mb-20">
-              {" "}
-              {/* Added mb-4 for margin-bottom */}
               <h1 className="text-3xl sm:text-5xl font-bold text-transparent bg-pink-600 bg-clip-text py-1">
-                Seemless financial services
+                Seamless financial services
                 <br /> at zero fee.
               </h1>
             </div>
 
             <div>
-              {currentAccount ? (
-                Rname == "" ? (
-                  <div className="window">
-                    <div className="content">
+              <div className="window">
+                <div className="content">
+                  {employerStatus === null ? (
+                    <p>Checking status...</p>
+                  ) : employerStatus ? (
+                    <div>
+                      <button
+                        className="ghost-round full-width"
+                        onClick={() => navigate("/company")}
+                      >
+                        Access Dashboard
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
                       <h4>Make an account & start paying your team members</h4>
                       <div className="input-fields my-7">
-                        {/* <input
-                          type="text"
-                          placeholder="Name of the Company"
-                          className="input-line full-width"
-                          onChange={(e) => setName(e.target.value)}
-                        /> */}
+                        {/* Input field for company name */}
                       </div>
                       <div>
                         <button
@@ -89,35 +93,9 @@ const Welcome = () => {
                         </button>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="window">
-                    <div className="content">
-                      <div>
-                        <button
-                          className="ghost-round full-width"
-                          onClick={() => navigate("/company")}
-                        >
-                          Access Dashboard
-                        </button>
-                      </div>
-                    </div>
-                    <div className="text-center text-white space2">
-                      Signed In as {Rname}
-                    </div>
-                  </div>
-                )
-              ) : (
-                <div>
-                  <button
-                    className="button-63 bg-pink-600"
-                    role="button"
-                    onClick={connectWallet}
-                  >
-                    Connect Wallet{" "}
-                  </button>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </Col>
 

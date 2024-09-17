@@ -271,6 +271,18 @@ export default function Ethers({ children }) {
     }
   };
 
+  const isEmployer = async () => {
+    try {
+      const contract = getContract();
+      const account = await getWallet();
+      let res = await contract.employers(account);
+      return res ? true : false;
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
+    }
+  };
+
   return (
     <EthersContext.Provider
       value={{
@@ -286,6 +298,7 @@ export default function Ethers({ children }) {
         setChainId,
         switchNetwork,
         registerCompany,
+        isEmployer,
       }}
     >
       {children}
