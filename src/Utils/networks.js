@@ -1,7 +1,7 @@
 export const chainIdMapping = {
   167009: {
     name: "Taiko Hekla",
-    rpcUrls: ["https://rpc.ankr.com/taiko_hekla"],
+    rpcUrls: ["https://rpc.hekla.taiko.xyz"],
     blockExplorerUrls: ["https://blockscoutapi.hekla.taiko.xyz"],
     nativeCurrency: { name: "ETH", decimals: 18, symbol: "ETH" },
     hex: "0x28c61",

@@ -9,8 +9,9 @@ const { ethereum } = window;
 if (!ethereum) alert("Please install MetaMask to use the application");
 
 export default function Ethers({ children }) {
-  const contractAddressTestnet = "0x0aa490704Da19A22154Fed5A1783cEE9a7343A48";
+  const contractAddressTestnet = "0xa002EfE4312fEc9909C2f66042aF0e2f685AB518";
   const contractAddressMainnet = "0xB9d37068Bd3586aEa1b0B120D183eB7A390312f7";
+  const contractAddressSepolia = "0x2C1F357DA60874b39936f00Ce736163a231f6A9f";
 
   const [currentAccount, setCurrentAccount] = useState(null);
   const [chainId, setChainId] = useState(window.ethereum.networkVersion);
@@ -126,9 +127,10 @@ export default function Ethers({ children }) {
 
   const getContractAddress = (chain) => {
     try {
-      if (chain == 167009) return contractAddressTestnet;
-      else if (chain == 11155111) {
+      if (chain == 167009) {
         return contractAddressTestnet;
+      } else if (chain == 11155111) {
+        return contractAddressSepolia;
       }
       return contractAddressMainnet;
     } catch (e) {
@@ -315,6 +317,8 @@ export default function Ethers({ children }) {
     try {
       const contract = getContract();
       const account = await getWallet();
+      console.log(account, "accountg");
+
       let res = await contract.employers(account);
       console.log("is employer", res);
       return res ? true : false;
@@ -329,7 +333,6 @@ export default function Ethers({ children }) {
       const account = await getWallet();
       const contract = getContract();
       const result = await contract.isEmployee(account);
-
       return result;
     } catch (error) {
       console.error("Error checking employee status:", error);
