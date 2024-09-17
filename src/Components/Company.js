@@ -13,6 +13,7 @@ function Company() {
     payEmployees,
     addEmployee,
     getEmployeeNumber,
+    getContractBalance,
   } = useContext(EthersContext);
 
   const [Loaded, setLoaded] = useState(false);
@@ -26,6 +27,7 @@ function Company() {
   const [empAddress, setEmpAddress] = useState("");
   const [empSalary, setEmpSalary] = useState("");
   const [empNum, setEmpNum] = useState("0");
+  const [contractBalance, setContractBalance] = useState("0");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,10 +36,11 @@ function Company() {
         const empNumber = await getEmployeeNumber();
         setEmpNum(empNumber);
         const empList = await getEmployeeList();
-        console.log("empList", empList);
         setEmpList(empList);
         const totalSal = await calculateTotalSalary();
-        setTotalSal(ethers.utils.formatEther(totalSal));
+        setTotalSal(totalSal);
+        let contractBal = await getContractBalance();
+        setContractBalance(contractBal);
         setLoaded(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -47,6 +50,13 @@ function Company() {
     fetchData();
   }, [getEmployeeList, calculateTotalSalary]);
 
+  // Function to calculate days remaining in the month
+  const getDaysRemainingInMonth = () => {
+    const now = new Date();
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return Math.ceil((endOfMonth - now) / (1000 * 60 * 60 * 24));
+  };
+
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
@@ -55,10 +65,10 @@ function Company() {
     try {
       await payEmployees();
       setLoaded(false);
-      alert("Successfully distributed salaries");
+      alert("Successfully locked salaries");
     } catch (error) {
       setLoaded(false);
-      console.error("Error distributing salaries:", error);
+      console.error("Error locking salaries:", error);
       alert("Something went wrong, try again");
     }
   };
@@ -98,6 +108,18 @@ function Company() {
 
   return (
     <div className="emp_main">
+      <Row>
+        <Col sm={12} className="mb-4">
+          <div className="days-remaining">
+            <div className="text-white text-2xl text-center">
+              Days Remaining Until End of Month: {getDaysRemainingInMonth()}
+            </div>
+            <div className="text-white text-xl text-center mt-10">
+              Contract Balance: {contractBalance} ETH
+            </div>
+          </div>
+        </Col>
+      </Row>
       <Row>
         <Col sm={12} lg={5} md={12} className="probox">
           <div className="pro_box">

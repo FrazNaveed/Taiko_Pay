@@ -9,7 +9,7 @@ const { ethereum } = window;
 if (!ethereum) alert("Please install MetaMask to use the application");
 
 export default function Ethers({ children }) {
-  const contractAddressTestnet = "0x9FC682f62eE5957bFe3fa108c2c5d2bE713Db4ec";
+  const contractAddressTestnet = "0x32CA3A3eb1846362F4Ae82ddBD1F202e37F6c889";
   const contractAddressMainnet = "0xB9d37068Bd3586aEa1b0B120D183eB7A390312f7";
 
   const [currentAccount, setCurrentAccount] = useState(null);
@@ -218,22 +218,43 @@ export default function Ethers({ children }) {
       alert("Something went wrong, try again");
     }
   };
-
   const payEmployees = async () => {
     try {
       const account = await getWallet();
       const contract = getContract();
-      let totalSal = await contract.getContractBalance();
-      let overrides = {
-        value: totalSal._hex,
-        gasLimit: 1000000,
-      };
-      let res = await contract.payEmployees(overrides);
+      let totalSalaries = await contract.getTotalSalaries();
+
+      let res = await contract.depositPayroll({ value: totalSalaries });
       await res.wait();
-      alert("Successfully distributed salaries");
+      alert("Successfully deposited payroll");
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+      alert("Something went wrong, try again");
+    }
+  };
+
+  const getContractBalance = async () => {
+    try {
+      const account = await getWallet();
+      const contract = getContract();
+      let res = await contract.getContractBalance();
+      return ethers.utils.formatEther(res);
     } catch (e) {
       console.log(e);
       alert("Something went wrong, try again");
+    }
+  };
+
+  const getWalletBalance = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const balance = await signer.getBalance();
+      return ethers.utils.formatEther(balance);
+    } catch (error) {
+      console.error("Error fetching wallet balance:", error);
+      return "0";
     }
   };
 
@@ -241,8 +262,8 @@ export default function Ethers({ children }) {
     try {
       const account = await getWallet();
       const contract = getContract();
-      // let res = await contract.calculateTotalSalary(account);
-      // return ethers.utils.formatEther(res);
+      let res = await contract.getTotalSalaries();
+      return ethers.utils.formatEther(res);
     } catch (e) {
       console.log(e);
       alert("Something went wrong, try again");
@@ -303,6 +324,47 @@ export default function Ethers({ children }) {
     }
   };
 
+  const isEmployee = async () => {
+    try {
+      const account = await getWallet();
+      const contract = getContract();
+      const result = await contract.isEmployee(account);
+      console.log("result", result);
+      return result;
+    } catch (error) {
+      console.error("Error checking employee status:", error);
+      return false;
+    }
+  };
+
+  const getEmployeeSalary = async () => {
+    try {
+      const account = await getWallet();
+      const contract = getContract();
+      let res = await contract.getEmployeeSalary(account);
+      return ethers.utils.formatEther(res);
+    } catch (e) {
+      console.log(e);
+      alert("Something went wrong, try again");
+    }
+  };
+
+  const claimSalary = async () => {
+    try {
+      const contract = getContract();
+      const account = await getWallet();
+      let tx = await contract.claimSalary();
+      await tx.wait();
+      alert("Successfully claimed the salary");
+      window.location.reload();
+    } catch (error) {
+      // Extract the error reason from the transaction receipt
+      const reason =
+        error.reason || error.message || "An unknown error occurred";
+      alert(`Error: ${reason}`);
+    }
+  };
+
   return (
     <EthersContext.Provider
       value={{
@@ -320,6 +382,11 @@ export default function Ethers({ children }) {
         registerCompany,
         isEmployer,
         getEmployeeNumber,
+        getContractBalance,
+        getWalletBalance,
+        isEmployee,
+        getEmployeeSalary,
+        claimSalary,
       }}
     >
       {children}

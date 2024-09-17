@@ -40,3 +40,14 @@
 .employee-table tbody tr:nth-child(even) {
   background-color: #f9f9f9; /* Light grey background for alternating rows */
 }
+
+/* Company.css */
+.days-remaining {
+  background-color: #333; /* Dark background for the counter section */
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.days-remaining .text-white {
+  color: white; /* White text color for the counter */
+}

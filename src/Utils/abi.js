@@ -1,20 +1,6 @@
 export const abi = [
   {
     inputs: [],
-    name: "claimSalary",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "depositPayroll",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -49,50 +35,6 @@ export const abi = [
     ],
     name: "EmployeeRemoved",
     type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_employee",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_salary",
-        type: "uint256",
-      },
-    ],
-    name: "registerEmployee",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_employer",
-        type: "address",
-      },
-    ],
-    name: "registerEmployer",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_employee",
-        type: "address",
-      },
-    ],
-    name: "removeEmployee",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
   },
   {
     anonymous: false,
@@ -131,6 +73,20 @@ export const abi = [
     ],
     name: "SalaryDeposited",
     type: "event",
+  },
+  {
+    inputs: [],
+    name: "claimSalary",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "depositPayroll",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
   },
   {
     inputs: [
@@ -271,6 +227,25 @@ export const abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+    ],
+    name: "isEmployee",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "owner",
     outputs: [
@@ -294,6 +269,50 @@ export const abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_salary",
+        type: "uint256",
+      },
+    ],
+    name: "registerEmployee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employer",
+        type: "address",
+      },
+    ],
+    name: "registerEmployer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_employee",
+        type: "address",
+      },
+    ],
+    name: "removeEmployee",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

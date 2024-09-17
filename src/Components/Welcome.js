@@ -9,24 +9,28 @@ const companyCommonStyles =
   "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Welcome = () => {
-  const { isEmployer, registerCompany, connectWallet } =
+  const { isEmployer, registerCompany, connectWallet, isEmployee } =
     useContext(EthersContext);
   const [employerStatus, setEmployerStatus] = useState(null);
+  const [employeeStatus, setEmployeeStatus] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkEmployerStatus = async () => {
+    const checkStatus = async () => {
       try {
-        const res = await isEmployer();
+        const employerRes = await isEmployer();
+        setEmployerStatus(employerRes);
 
-        setEmployerStatus(res);
+        const employeeRes = await isEmployee(); // Check if user is an employee
+        setEmployeeStatus(employeeRes);
       } catch (error) {
-        console.error("Error checking employer status:", error);
+        console.error("Error checking status:", error);
         setEmployerStatus(false);
+        setEmployeeStatus(false);
       }
     };
-    checkEmployerStatus();
-  }, [isEmployer]);
+    checkStatus();
+  }, [isEmployer, isEmployee]);
 
   const handleCreate = async () => {
     let res = await registerCompany();
@@ -37,7 +41,11 @@ const Welcome = () => {
 
   const handleClaimSalary = async () => {
     try {
-      // Your claim salary logic
+      if (employeeStatus) {
+        navigate("/employee");
+      } else {
+        alert("You are not an employee. Please contact your employer.");
+      }
     } catch (error) {
       console.error("Error claiming salary:", error);
     }
